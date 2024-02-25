@@ -34,14 +34,14 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
             model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
 
             return chat_completion.choices[0].message.content
-        else:
-            client = openai.OpenAI(api_key=parameters.get('openai_api_key', ''))
 
-            chat_completion = client.chat.completions.create(**request_obj)
+        client = openai.OpenAI(api_key=parameters.get('openai_api_key', '')) # pylint: disable=no-member
 
-            model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
+        chat_completion = client.chat.completions.create(**request_obj)
 
-            return chat_completion.choices[0].message.content
+        model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
+
+        return chat_completion.choices[0].message.content
     except Exception as error:
         response_obj = {
             'stacktrace': traceback.format_exc()
