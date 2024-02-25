@@ -8,7 +8,7 @@ The package consists of two main model classes: `GenerativeAIModel` and `Generat
 
 `GenerativeAIModel` objects are configured with a specific model type (e.g. *OpenAI Chat*) which is associated with a model type identifier (e.g. `openai_chat`). When the model is run, it looks in each Django package for a submodule named `.simple_generative_ai.model_type`, where `model_type` is replaced with the model type identifier specified by the object. The module path for the OpenAI Chat model is [`.simple_generative_ai.openai_chat`](simple_generative_ai/openai_chat.py).
 
-This reflection-based approach allows system builders to add new model types and services to a project using Simple Generative AI to provide the management and auditing services. This approach also allows system builders to override the implementations provided with this package, should a more specialized solution be required.
+This reflection-based approach allows system builders to add new model types and services to a project using Simple Generative AI to provide the management and auditing services. This approach also allows them to override the implementations provided with this package, should a more specialized solution be required.
 
 Currently, this package supports the following models and services:
 
