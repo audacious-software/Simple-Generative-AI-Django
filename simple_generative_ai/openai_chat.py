@@ -2,8 +2,6 @@
 
 import traceback
 
-import sys
-
 import openai
 
 from ..models import GenerativeAIException
