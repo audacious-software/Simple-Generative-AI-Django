@@ -1,5 +1,7 @@
 # Simple Generative AI for Django
 
+[![CircleCI](https://circleci.com/gh/audacious-software/Simple-Generative-AI-Django.svg?style=svg)](https://circleci.com/gh/audacious-software/Simple-Generative-AI-Django) ![Python](https://img.shields.io/badge/python-3.7.1-blue.svg)
+
 This is a Django utility app, suitable for building larger systems, that manages third-party generative AI APIs and services and exposes those features to other Django components (such as [Django Dialog Engine](https://github.com/audacious-software/Django-Dialog-Engine)) in a consistent and controlled manner.
 
 *This is a **early** version of this software and it is still under **active development**. Use at your own risk!*
