@@ -27,6 +27,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'prettyjson',
     'quicksilver',
     'django_dialog_engine',
     'simple_generative_ai',

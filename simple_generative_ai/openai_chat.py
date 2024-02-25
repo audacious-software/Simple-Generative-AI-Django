@@ -2,7 +2,9 @@
 
 import traceback
 
-from openai import OpenAI
+import sys
+
+import openai
 
 from ..models import GenerativeAIException
 
@@ -11,8 +13,6 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
         extras = {}
 
     parameters = model_obj.fetch_parameters()
-
-    client = OpenAI(api_key=parameters.get('openai_api_key', ''))
 
     messages = extras.get('messages', [])
 
@@ -28,11 +28,20 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
     }
 
     try:
-        chat_completion = client.chat.completions.create(**request_obj)
+        if sys.version < 0x030701F0:
+            chat_completion = openai.ChatCompletion.create(**request_obj)
 
-        model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
+            model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
 
-        return chat_completion.choices[0].message.content
+            return chat_completion.choices[0].message.content
+        else:
+            client = openai.OpenAI(api_key=parameters.get('openai_api_key', ''))
+
+            chat_completion = client.chat.completions.create(**request_obj)
+
+            model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
+
+            return chat_completion.choices[0].message.content
     except Exception as error:
         response_obj = {
             'stacktrace': traceback.format_exc()
