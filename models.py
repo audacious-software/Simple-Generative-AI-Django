@@ -5,6 +5,8 @@ import json
 
 import psycopg2
 
+import django
+
 from django.conf import settings
 from django.core.checks import Warning, register # pylint: disable=redefined-builtin
 from django.db import models
