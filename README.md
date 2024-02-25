@@ -36,7 +36,7 @@ Add `simple_generative_ai` to `settings.INSTALLED_APPS`.
 
 Then, add Simple Generative AI to your project's `urls.py` file to enable support for advanced features, such as [the generative AI nodes](dialog_api.py) that this package enables in [Django Dialog Engine](https://github.com/audacious-software/Django-Dialog-Engine):
 
-```
+```python
 urlpatterns = [
     path('admin/', admin.site.urls),
     url('^accounts/', include('django.contrib.auth.urls')),
@@ -63,10 +63,10 @@ $
 
 In this case, you would open the *Chat test* model in the Django administrative interface and update the model parameters:
 
-```
+```json
 {
-"openai_api_key": "YOUR-KEY-HERE",
-"openai_model": "gpt-3.5-turbo"
+  "openai_api_key": "YOUR-KEY-HERE",
+  "openai_model": "gpt-3.5-turbo"
 }
 ```
 
