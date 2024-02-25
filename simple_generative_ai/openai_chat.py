@@ -29,7 +29,7 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
 
     try:
         if sys.version < 0x030700F0: # OpenAI Python library changed significantly after this version.
-            chat_completion = openai.ChatCompletion.create(**request_obj)
+            chat_completion = openai.ChatCompletion.create(**request_obj) # pylint: disable=no-member
 
             model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
 
