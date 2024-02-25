@@ -32,7 +32,7 @@ $ git clone https://github.com/audacious-software/Simple-Generative-AI-Django.gi
 
 Add `simple_generative_ai` to `settings.INSTALLED_APPS`. 
 
-Optionally, add Simple Generative AI to your project's `urls.py` file to enable support for for other packages:
+Then, add Simple Generative AI to your project's `urls.py` file to enable support for advanced features, such as [the generative AI nodes](dialog_api.py) that this package enables in [Django Dialog Engine](https://github.com/audacious-software/Django-Dialog-Engine):
 
 ```
 urlpatterns = [
