@@ -3,6 +3,8 @@
 import importlib
 import json
 
+import psycopg2
+
 from django.conf import settings
 from django.core.checks import Warning, register # pylint: disable=redefined-builtin
 from django.db import models
@@ -101,13 +103,16 @@ def validate_model_configurations(app_configs, **kwargs): # pylint: disable=unus
     if 'simple_generative_ai.W001' in settings.SILENCED_SYSTEM_CHECKS:
         return errors
 
-    for model in GenerativeAIModel.objects.filter(enabled=True):
-        for issue in model.fetch_issues():
-            warning_id = 'simple_generative_ai.%s.W001' % model.model_type
+    try:
+        for model in GenerativeAIModel.objects.filter(enabled=True):
+            for issue in model.fetch_issues():
+                warning_id = 'simple_generative_ai.%s.W001' % model.model_type
 
-            if (warning_id in settings.SILENCED_SYSTEM_CHECKS) is False:
-                warning = Warning('Model "%s" is not properly configured' % model, hint='%s or add "%s" to SILENCED_SYSTEM_CHECKS.' % (issue, warning_id), obj=None, id=warning_id) # pylint: disable=consider-using-f-string
+                if (warning_id in settings.SILENCED_SYSTEM_CHECKS) is False:
+                    warning = Warning('Model "%s" is not properly configured' % model, hint='%s or add "%s" to SILENCED_SYSTEM_CHECKS.' % (issue, warning_id), obj=None, id=warning_id) # pylint: disable=consider-using-f-string
 
-                errors.append(warning)
+                    errors.append(warning)
+    except psycopg2.errors.UndefinedTable: # Thrown if contents not yet migrated.
+        pass
 
     return errors
