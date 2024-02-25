@@ -47,7 +47,7 @@ class GenerativeAITextNode(BaseNode):
 
         return json.dumps(definition, indent=2)
 
-    def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements
+    def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements, unused-argument
         if extras is None:
             extras = {}
 

@@ -48,6 +48,10 @@ jobs:
             django-admin.py startproject sga
             mv ../simple_generative_ai sga
             cd sga
+            git clone https://github.com/audacious-software/Django-Dialog-Engine.git django_dialog_engine
+            git clone https://github.com/audacious-software/Quicksilver-Django.git quicksilver
+            pip install -r django_dialog_engine/requirements.txt --progress-bar off
+            pip install -r quicksilver/requirements.txt --progress-bar off
             cp simple_generative_ai/circle_settings.py sga/settings.py
             cp simple_generative_ai/circle_urls.py sga/urls.py
             python manage.py migrate
@@ -101,6 +105,10 @@ jobs:
             django-admin.py startproject sga
             mv ../simple_generative_ai sga
             cd sga
+            git clone https://github.com/audacious-software/Django-Dialog-Engine.git django_dialog_engine
+            git clone https://github.com/audacious-software/Quicksilver-Django.git quicksilver
+            pip install -r django_dialog_engine/requirements.txt --progress-bar off
+            pip install -r quicksilver/requirements.txt --progress-bar off
             cp simple_generative_ai/circle_settings.py sga/settings.py
             cp simple_generative_ai/circle_urls.py sga/urls.py
             python manage.py migrate
@@ -154,6 +162,10 @@ jobs:
             django-admin.py startproject sga
             mv ../simple_generative_ai sga
             cd sga
+            git clone https://github.com/audacious-software/Django-Dialog-Engine.git django_dialog_engine
+            git clone https://github.com/audacious-software/Quicksilver-Django.git quicksilver
+            pip install -r django_dialog_engine/requirements.txt --progress-bar off
+            pip install -r quicksilver/requirements.txt --progress-bar off
             cp simple_generative_ai/circle_settings.py sga/settings.py
             cp simple_generative_ai/circle_urls.py sga/urls.py
             python manage.py migrate

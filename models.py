@@ -1,9 +1,7 @@
-# pylint: disable=line-too-long, no-member
+# pylint: disable=line-too-long, no-member, too-few-public-methods
 
 import importlib
 import json
-
-import psycopg2
 
 import django
 
