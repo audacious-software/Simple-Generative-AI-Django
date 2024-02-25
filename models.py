@@ -112,7 +112,7 @@ def validate_model_configurations(app_configs, **kwargs): # pylint: disable=unus
                     warning = Warning('Model "%s" is not properly configured' % model, hint='%s or add "%s" to SILENCED_SYSTEM_CHECKS.' % (issue, warning_id), obj=None, id=warning_id) # pylint: disable=consider-using-f-string
 
                     errors.append(warning)
-    except django.db.utils.ProgrammingError:: # Thrown if contents not yet migrated.
+    except django.db.utils.ProgrammingError: # Thrown if contents not yet migrated.
         pass
 
     return errors
