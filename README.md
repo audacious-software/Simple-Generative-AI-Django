@@ -18,6 +18,7 @@ Currently, this package supports the following models and services:
 
 The development roadmap includes plans to implement the following models and services:
 
+* [Adobe Firefly](https://www.adobe.com/products/firefly.html)
 * [OpenAI Image Generation](https://platform.openai.com/docs/guides/images)
 * [Azure OpenAI Services](https://azure.microsoft.com/en-us/products/ai-services/openai-service)
 * [PaLM 2 Text](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text) and [PaLM 2 Chat](https://cloud.google.com/vertex-ai/docs/generative-ai/model-reference/text-chat)
