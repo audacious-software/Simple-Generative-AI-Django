@@ -80,7 +80,7 @@ For additional information about parameters supported by the service implementat
 
 ## Questions?
 
-If you have any questions or need assistance, please e-mail [chris@audacious-softare.com](mailto:chris@audacious-software.com). This is still a project under active development, so there will still be rough spots as this project develops.
+If you have any questions or need assistance, please e-mail [chris@audacious-software.com](mailto:chris@audacious-software.com). This is still a project under active development, so there will still be rough spots as this project develops.
 
 ## License and Other Project Information
 
