@@ -30,7 +30,6 @@ INSTALLED_APPS = (
     'quicksilver',
     'django_dialog_engine',
     'simple_generative_ai',
-    'simple_generative_ai',
 )
 
 MIDDLEWARE = (
