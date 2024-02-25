@@ -139,11 +139,11 @@ define(['material', 'cards/node', 'jquery'], function (mdc, Node) {
       })
 
       me.dialog.initializeDestinationMenu(me.cardId, function (selected) {
-      	if (me.targetDestination === 'next') {
-	        me.definition.next_id = selected
-	    } else {
-	        me.definition.error_id = selected
-		}	    
+        if (me.targetDestination === 'next') {
+          me.definition.next_id = selected
+        } else {
+          me.definition.error_id = selected
+        }
 
         me.dialog.markChanged(me.id)
         me.dialog.loadNode(me.definition)
@@ -152,8 +152,8 @@ define(['material', 'cards/node', 'jquery'], function (mdc, Node) {
       const dialog = mdc.dialog.MDCDialog.attachTo(document.getElementById(me.cardId + '-edit-dialog'))
 
       $('#' + this.cardId + '_next_edit').on('click', function () {
-      	me.targetDestination = 'next'
-      	
+        me.targetDestination = 'next'
+
         dialog.open()
       })
 
@@ -184,8 +184,8 @@ define(['material', 'cards/node', 'jquery'], function (mdc, Node) {
       })
 
       $('#' + this.cardId + '_error_edit').on('click', function () {
-      	me.targetDestination = 'error'
-      	
+        me.targetDestination = 'error'
+
         dialog.open()
       })
 
@@ -263,12 +263,12 @@ define(['material', 'cards/node', 'jquery'], function (mdc, Node) {
         }
       }
 
-      const error_id = this.definition.error_id
+      const errorId = this.definition.error_id
 
       for (let i = 0; i < this.dialog.definition.length; i++) {
         const item = this.dialog.definition[i]
 
-        if (item.id === error_id) {
+        if (item.id === errorId) {
           nodes.push(Node.createCard(item, dialog))
         }
       }
@@ -320,7 +320,6 @@ define(['material', 'cards/node', 'jquery'], function (mdc, Node) {
       } else if (this.isValidDestination(this.definition.error_id) === false) {
         issues.push([this.definition.id, 'Error node points to a non-existent node.', this.definition.name])
       }
-
 
       if (this.definition.key === undefined || this.definition.key === undefined) {
         issues.push([this.definition.id, 'Variable key not defined.', this.definition.name])
