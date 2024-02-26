@@ -44,7 +44,7 @@ jobs:
             mv project simple_generative_ai
             mkdir django
             cd django
-            django-admin.py startproject sga
+            django-admin startproject sga
             mv ../simple_generative_ai sga
             cd sga
             git clone https://github.com/audacious-software/Django-Dialog-Engine.git django_dialog_engine
