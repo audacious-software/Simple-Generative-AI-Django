@@ -39,6 +39,7 @@ jobs:
             python3 -m venv /home/circleci/venv --copies
             . /home/circleci/venv/bin/activate
             pip install --upgrade pip
+            pip install -r requirements.txt --progress-bar off
             cd ..
             mv project simple_generative_ai
             mkdir django
