@@ -2,6 +2,7 @@
 
 import importlib
 import json
+import logging
 import traceback
 
 from django.conf import settings
@@ -15,11 +16,11 @@ class GenerativeAITextNode(BaseNode):
     def parse(dialog_def):
         if dialog_def['type'] == 'simple-generative-ai-text':
             try:
-                text_node = GenerativeAITextNode(dialog_def['id'], dialog_def['next_id'], dialog_def['error_id'], dialog_def['model_id'], dialog_def['prompt'], dialog_def['key'])
+                text_node = GenerativeAITextNode(dialog_def['id'], dialog_def['next_id'], dialog_def.get('error_id', None), dialog_def['model_id'], dialog_def['prompt'], dialog_def['key'])
 
                 return text_node
             except KeyError:
-                pass
+                traceback.print_exc()
 
         return None
 
@@ -31,6 +32,9 @@ class GenerativeAITextNode(BaseNode):
         self.model_id = model_id
         self.prompt = prompt
         self.key = key
+
+        if self.error_node_id is None:
+            logging.error('"error_id" is empty for GenerativeAITextNode with id "%s".', self.node_id)
 
     def node_type(self):
         return 'simple-generative-ai-text'
@@ -48,8 +52,13 @@ class GenerativeAITextNode(BaseNode):
         return json.dumps(definition, indent=2)
 
     def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements, unused-argument
-        if extras is None:
-            extras = {}
+        prompt_variables = {}
+
+        if dialog.metadata is not None:
+            prompt_variables.update(dialog.metadata)
+
+        if extras is not None:
+            prompt_variables.update(extras)
 
         if logger is None:
             logger = fetch_default_logger()
@@ -66,7 +75,7 @@ class GenerativeAITextNode(BaseNode):
                 try:
                     gen_ai_module = importlib.import_module('.simple_generative_ai', package=app)
 
-                    rendered_prompt = gen_ai_module.render_prompt(self.prompt, dialog.metadata)
+                    rendered_prompt = gen_ai_module.render_prompt(self.prompt, prompt_variables)
                 except ImportError:
                     pass
                 except AttributeError:
