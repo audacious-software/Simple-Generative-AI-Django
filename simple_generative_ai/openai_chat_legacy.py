@@ -21,7 +21,7 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
         'messages': messages,
     }
 
-    response = requests.post(f'https://api.openai.com/v1/chat/completions',
+    response = requests.post('https://api.openai.com/v1/chat/completions',
           headers = {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer %s' % parameters.get('openai_api_key', '')
