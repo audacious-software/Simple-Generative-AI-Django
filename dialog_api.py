@@ -81,6 +81,8 @@ class GenerativeAITextNode(BaseNode):
                 except AttributeError:
                     pass
 
+            print('PROMPT: %s' % rendered_prompt)
+
             response = model.run(rendered_prompt, extras)
 
             transition = DialogTransition(new_state_id=self.next_node_id)
