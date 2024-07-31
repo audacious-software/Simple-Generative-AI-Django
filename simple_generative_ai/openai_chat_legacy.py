@@ -47,9 +47,9 @@ def validate_model(model_obj):
     parameters = model_obj.fetch_parameters()
 
     if parameters.get('openai_api_key', None) is None:
-        issues.append('Add valid 'openai_api_key' parameter to model')
+        issues.append('Add valid "openai_api_key" parameter to model')
 
     if parameters.get('openai_model', None) is None:
-        issues.append('Specify 'openai_model' type parameter for model (see https://platform.openai.com/docs/models)')
+        issues.append('Specify "openai_model" type parameter for model (see https://platform.openai.com/docs/models)')
 
     return issues
