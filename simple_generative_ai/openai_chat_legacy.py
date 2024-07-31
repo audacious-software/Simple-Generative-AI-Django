@@ -34,7 +34,7 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
               "model": parameters.get('openai_model', 'gpt-3.5-turbo'),
               "messages": messages,
               "max_tokens": 500
-          })
+          }, timeout=60)
 
     response_json = response.json()
 
