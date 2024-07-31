@@ -2,8 +2,6 @@
 
 import traceback
 
-import openai
-
 from ..models import GenerativeAIException
 
 def run_model(model_obj, prompt, user='openai_user', extras=None):
@@ -26,6 +24,8 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
     }
 
     try:
+        import openai # pylint: disable=import-outside-toplevel, import-error
+
         client = openai.OpenAI(api_key=parameters.get('openai_api_key', '')) # pylint: disable=no-member
 
         chat_completion = client.chat.completions.create(**request_obj)
