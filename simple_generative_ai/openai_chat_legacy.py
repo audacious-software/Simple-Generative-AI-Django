@@ -7,6 +7,10 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
         extras = {}
 
     parameters = model_obj.fetch_parameters()
+    print(f'1) paramters fetched from model form: {parameters}')#debug
+
+    #get system prompt
+    system_prompt = parameters.get('system_prompt', '')
 
     messages = extras.get('messages', [])
 
@@ -14,12 +18,35 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
         'role': 'user',
         'content': prompt
     })
+    
+    #add system prompt to messages for request object
+    messages.append({
+        'role': 'system',
+        'content': system_prompt
+    })
 
     request_obj = {
         'model': parameters.get('openai_model', 'gpt-3.5-turbo'),
         'user': user,
         'messages': messages,
+        #record other parameters:
+        'max_tokens': parameters.get('max_tokens', 500),
+        'temp': parameters.get('temperature', 1),
+        'top_p': parameters.get('top_p', 1),
+        'stop': parameters.get('stop', None),
     }
+    # Some parameters to include: 
+    # *all coefficients can go above 2 or below 0 where negative values will have inverse effects, and values above 2 will have strong effects but greatly increase the possibility of malfunction. 
+    #   temperature (randomness where higher is more random 0 - 2; default = 1), 
+    #   max_tokens (deprecated for o1 series models. They use 'max_completion_tokens'), 
+    #   top_p (preference for high likelihood token selection)
+    #       Higher = more lenience, i.e. considers all possible tokens. 
+    #       Lower = strictly high likelihood token selection, i.e. focussed, relevant, constrained answers (0.1 = only top 10% tokens are even considered)
+    #       0 - 2; default = 1,
+    #   n (number of responses; default = 1), 
+    #   stop (custom generation stop conditions, up to 4 different conditions; default = null), 
+    #   frequency_penalty (punishes repetition, scaling with token frequency 0 - 1; default = 0), 
+    #   presence_penalty (punishes repitition, flatly by token use 0 - 1; default = 0)
 
     response = requests.post('https://api.openai.com/v1/chat/completions',
           headers = {
@@ -29,7 +56,10 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
           json={
               'model': parameters.get('openai_model', 'gpt-3.5-turbo'),
               'messages': messages,
-              'max_tokens': 500
+              'max_tokens': parameters.get('max_tokens', 500),
+              'temperature': parameters.get('temperature', 1),
+              'top_p': parameters.get('top_p', 1),
+              'stop': parameters.get('stop', None)
           }, timeout=60)
 
     response_json = response.json()
