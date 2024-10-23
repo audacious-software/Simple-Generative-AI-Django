@@ -35,24 +35,18 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
             'content': system_prompt
         })
 
-    if prepend_system_prompt:
-        messages.insert(0, system_prompt)
-    else:
-        messages.append({
-            'role': 'system',
-            'content': system_prompt
-        })
+    model_type = parameters.get('openai_model', 'gpt-3.5-turbo')
+
+    model_parameters = parameters.get(model_type, {})
 
     request_obj = {
-        'model': parameters.get('openai_model', 'gpt-3.5-turbo'),
+        'model': model_type,
         'user': user,
         'messages': messages,
-        #record other parameters:
-        'max_tokens': parameters.get('max_tokens', 500),
-        'temp': parameters.get('temperature', 1),
-        'top_p': parameters.get('top_p', 1),
-        'stop': parameters.get('stop', None),
     }
+
+    request_obj.update(model_parameters)
+
     # Some parameters to include:
     # *all coefficients can go above 2 or below 0 where negative values will have inverse effects, and values above 2 will have strong effects but greatly increase the possibility of malfunction.
     #   temperature (randomness where higher is more random 0 - 2; default = 1),
