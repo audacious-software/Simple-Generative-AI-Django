@@ -84,7 +84,7 @@ def validate_model(model_obj):
 
         if parameters.get('openai_model', None) is None:
             issues.append('Specify "openai_model" type parameter for model (see https://platform.openai.com/docs/models)')
-    except:
+    except: # pylint: disable=bare-except
         issues.append('Unable to load or validate model "%s". Check that the parameters are formatted correctly.' % model_obj)
 
     return issues
