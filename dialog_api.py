@@ -110,8 +110,8 @@ class GenerativeAITextNode(BaseNode):
 
     def next_nodes(self):
         nodes = [
-            (self.next_id, 'Success',),
-            (self.error_id, 'Error',),
+            (self.next_node_id, 'Success',),
+            (self.error_node_id, 'Error',),
         ]
 
         return nodes

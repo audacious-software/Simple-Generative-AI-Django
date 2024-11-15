@@ -74,16 +74,17 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
 
 
 def validate_model(model_obj):
-    parameters = model_obj.fetch_parameters()
-
     issues = []
 
-    parameters = model_obj.fetch_parameters()
+    try:
+        parameters = model_obj.fetch_parameters()
 
-    if parameters.get('openai_api_key', None) is None:
-        issues.append('Add valid "openai_api_key" parameter to model')
+        if parameters.get('openai_api_key', None) is None:
+            issues.append('Add valid "openai_api_key" parameter to model')
 
-    if parameters.get('openai_model', None) is None:
-        issues.append('Specify "openai_model" type parameter for model (see https://platform.openai.com/docs/models)')
+        if parameters.get('openai_model', None) is None:
+            issues.append('Specify "openai_model" type parameter for model (see https://platform.openai.com/docs/models)')
+    except:
+        issues.append('Unable to load or validate model "%s". Check that the parameters are formatted correctly.' % model_obj)
 
     return issues
