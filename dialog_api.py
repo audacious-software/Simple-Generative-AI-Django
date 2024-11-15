@@ -24,7 +24,7 @@ class GenerativeAITextNode(BaseNode):
 
         return None
 
-    def __init__(self, node_id, next_node_id, error_node_id, model_id, prompt, key):# pylint: disable=too-many-arguments
+    def __init__(self, node_id, next_node_id, error_node_id, model_id, prompt, key):# pylint: disable=too-many-arguments, too-many-positional-arguments
         super(GenerativeAITextNode, self).__init__(node_id, node_id) # pylint: disable=super-with-arguments
 
         self.next_node_id = next_node_id
@@ -51,7 +51,7 @@ class GenerativeAITextNode(BaseNode):
 
         return json.dumps(definition, indent=2)
 
-    def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements, unused-argument
+    def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements, unused-argument, too-many-positional-arguments
         prompt_variables = {}
 
         if dialog.metadata is not None:
