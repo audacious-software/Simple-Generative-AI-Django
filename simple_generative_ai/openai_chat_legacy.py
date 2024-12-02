@@ -4,6 +4,10 @@ import logging
 
 import requests
 
+from django.utils import timezone
+
+from ..models import GenerativeAIException
+
 def run_model(model_obj, prompt, user='openai_user', extras=None):
     if extras is None:
         extras = {}
@@ -68,7 +72,18 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
 
     response_json = response.json()
 
-    model_obj.log_request(request_obj, response_json, True)
+    request_log = model_obj.log_request(request_obj, response_json, True)
+
+    if 'error' in response_json:
+        model_obj.enabled = False
+
+        parameters = {}
+        parameters['disabled_reason'] = 'Encountered error. See request log ID: %s.' % request_log.pk
+        parameters['disabled_time'] = timezone.now().isoformat()
+
+        model_obj.update_parameters(parameters)
+
+        raise GenerativeAIException('Error encountered calling openai_chat_legacy model (%s).' % model_obj)
 
     return response_json.get('choices', [])[0].get('message', {}).get('content', '(No content returned.)')
 

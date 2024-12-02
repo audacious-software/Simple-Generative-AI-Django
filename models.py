@@ -57,6 +57,14 @@ class GenerativeAIModel(models.Model):
     def fetch_parameters(self):
         return json.loads(self.model_parameters)
 
+    def update_parameters(self, updates):
+        parameters = self.fetch_parameters()
+
+        parameters.update(updates)
+
+        self.model_parameters = json.dumps(parameters, indent=2)
+        self.save()
+
     def to_json(self):
         return {
             'name': self.model_name,
@@ -78,7 +86,7 @@ class GenerativeAIModel(models.Model):
 
 
     def log_request(self, request_obj, response_obj, successful):
-        GenerativeAIModelRequest.objects.create(model=self, requested=timezone.now(), request=json.dumps(request_obj, indent=2), response=json.dumps(response_obj, indent=2), successful=successful)
+        return GenerativeAIModelRequest.objects.create(model=self, requested=timezone.now(), request=json.dumps(request_obj, indent=2), response=json.dumps(response_obj, indent=2), successful=successful)
 
 class GenerativeAIModelRequest(models.Model):
     class Meta:
