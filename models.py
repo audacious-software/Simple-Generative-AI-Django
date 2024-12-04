@@ -39,6 +39,9 @@ class GenerativeAIModel(models.Model):
         return '%s (%s)' % (self.model_name, self.model_type)
 
     def run(self, prompt, extras=None):
+        if self.enabled is False:
+            raise GenerativeAIException('Model %s is disabled. Prompt: %s' % (self, prompt))
+
         if extras is None:
             extras = {}
 

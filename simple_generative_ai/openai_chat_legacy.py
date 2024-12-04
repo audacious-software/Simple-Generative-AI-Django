@@ -83,6 +83,9 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
 
         model_obj.update_parameters(parameters)
 
+        request_log.successful = False
+        request_log.save()
+
         raise GenerativeAIException('Error encountered calling openai_chat_legacy model (%s).' % model_obj)
 
     return response_json.get('choices', [])[0].get('message', {}).get('content', '(No content returned.)')
