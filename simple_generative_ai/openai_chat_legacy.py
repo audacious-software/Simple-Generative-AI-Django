@@ -31,7 +31,10 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
     #add system prompt to messages for request object
 
     if system_prompt_position in ('prepend', 'bookend',):
-        messages.insert(0, system_prompt)
+        messages.insert(0, {
+            'role': 'system',
+            'content': system_prompt
+        })
 
     if system_prompt_position in ('append', 'bookend',):
         messages.append({
