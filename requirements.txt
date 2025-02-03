@@ -5,7 +5,7 @@ bandit==1.7.1; python_version < '3.7'
 Django==3.2.25; python_version < '3.8'
 Django==4.2.18; python_version >= '3.8'
 openai==1.39.0; python_version == '3.7' # Do not update - newer version dependencies not Python 3.7-compatible.
-openai==1.60.2; python_version >= '3.8'
+openai==1.61.0; python_version >= '3.8'
 psycopg2-binary==2.9.9; python_version == '3.7'
 psycopg2-binary==2.9.10; python_version >= '3.8'
 pylint==3.3.3; python_version >= '3.9'
