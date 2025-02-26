@@ -1,14 +1,16 @@
 # pylint: disable=line-too-long
 
+import importlib
 import logging
 
 import requests
 
+from django.conf import settings
 from django.utils import timezone
 
 from ..models import GenerativeAIException
 
-def run_model(model_obj, prompt, user='openai_user', extras=None):
+def run_model(model_obj, prompt, user='openai_user', extras=None): # pylint: disable=too-many-locals
     if extras is None:
         extras = {}
 
