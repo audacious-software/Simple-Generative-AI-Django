@@ -7,7 +7,7 @@ import traceback
 
 from django.conf import settings
 
-from django_dialog_engine.dialog import BaseNode, DialogTransition, fetch_default_logger
+from django_dialog_engine.dialog import BaseNode, DialogTransition
 
 from .models import GenerativeAIModel, GenerativeAIException
 
@@ -60,8 +60,7 @@ class GenerativeAITextNode(BaseNode):
         if extras is not None:
             prompt_variables.update(extras)
 
-        if logger is None:
-            logger = fetch_default_logger()
+        logger = logging.getLogger(__name__) # pylint: disable=invalid-name
 
         try:
             model = GenerativeAIModel.objects.filter(model_id=self.model_id).first()
