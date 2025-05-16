@@ -51,6 +51,17 @@ class GenerativeAITextNode(BaseNode):
 
         return json.dumps(definition, indent=2)
 
+    def node_definition(self):
+        node_def = super().node_definition() # pylint: disable=missing-super-argument
+
+        node_def['next_id'] = self.next_node_id
+        node_def['error_id'] = self.error_node_id
+        node_def['model_id'] = self.model_id
+        node_def['prompt'] = self.prompt
+        node_def['key'] = self.key
+
+        return node_def
+
     def evaluate(self, dialog, response=None, last_transition=None, extras=None, logger=None): # pylint: disable=too-many-arguments, too-many-locals, too-many-branches, too-many-statements, unused-argument, too-many-positional-arguments
         prompt_variables = {}
 
