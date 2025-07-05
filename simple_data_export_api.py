@@ -47,8 +47,6 @@ def compile_data_export(data_type, data_sources, start_time=None, end_time=None,
 
                     model = GenerativeAIModel.objects.filter(model_id=source).first()
 
-                    print('model: %s' % model)
-
                     if model is None:
                         continue
 
