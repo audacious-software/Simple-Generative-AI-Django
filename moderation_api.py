@@ -12,7 +12,7 @@ def moderate(request, moderator):
     logger = logging.getLogger()
 
     try:
-        from simple_moderation.models import ModerationDecision
+        from simple_moderation.models import ModerationDecision # pylint: disable=import-error
 
         if moderator.moderator_id.startswith('open-ai:'):
             model = moderator.metadata.get('openai_model', None)
