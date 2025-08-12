@@ -1,0 +1,63 @@
+# pylint: disable=line-too-long
+
+import traceback
+
+from ..models import GenerativeAIException
+
+def run_model(model_obj, prompt, user='anthropic_user', extras=None):
+    if extras is None:
+        extras = {}
+
+    parameters = model_obj.fetch_parameters()
+
+    messages = extras.get('messages', [])
+
+    messages.append({
+        'role': 'user',
+        'content': [{
+            'type': 'text',
+            'text': prompt
+        }]
+    })
+
+    request_obj = {
+        'model': parameters.get('model', 'claude-3-haiku-20240307'),
+        'max_tokens':  parameters.get('max_tokens', 1000),
+        'temperature':  parameters.get('temperature', 1),
+        'system':  parameters.get('system', ''),
+        'messages': messages,
+    }
+
+    try:
+        import anthropic # pylint: disable=import-outside-toplevel, import-error
+
+        client = anthropic.client(api_key=parameters.get('anthropic_api_key', ''))
+
+        chat_completion = client.messages.create(**request_obj)
+
+        model_obj.log_request(request_obj, chat_completion.to_dict(mode='json'), True)
+
+        return chat_completion.content[0].text
+    except Exception as error:
+        response_obj = {
+            'stacktrace': traceback.format_exc()
+        }
+
+        model_obj.log_request(request_obj, response_obj, False)
+
+        raise GenerativeAIException('Error encountered running anthropic.client.messages.create.') from error
+
+def validate_model(model_obj):
+    parameters = model_obj.fetch_parameters()
+
+    issues = []
+
+    parameters = model_obj.fetch_parameters()
+
+    if parameters.get('anthropic_api_key', None) is None:
+        issues.append('Add valid "anthropic_api_key" parameter to model')
+
+    if parameters.get('model', None) is None:
+        issues.append('Specify "model" type parameter for model (see https://docs.anthropic.com/en/docs/about-claude/models/overview)')
+
+    return issues

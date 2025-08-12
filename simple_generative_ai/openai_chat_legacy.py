@@ -1,14 +1,11 @@
 # pylint: disable=line-too-long
 
-import importlib
-import logging
-
 import requests
 
-from django.conf import settings
 from django.utils import timezone
 
 from ..models import GenerativeAIException
+from . import prepare_messages
 
 def run_model(model_obj, prompt, user='openai_user', extras=None): # pylint: disable=too-many-locals
     if extras is None:
@@ -16,44 +13,7 @@ def run_model(model_obj, prompt, user='openai_user', extras=None): # pylint: dis
 
     parameters = model_obj.fetch_parameters()
 
-    logging.info('1) paramters fetched from model form: %s', parameters)
-
-    #get system prompt
-    system_prompt = parameters.get('system_prompt', '')
-
-    system_prompt_position = parameters.get('system_prompt_position', 'append') # 'append', 'prepend', 'bookend'
-
-    for app in settings.INSTALLED_APPS:
-        try:
-            gen_ai_module = importlib.import_module('.simple_generative_ai', package=app)
-
-            prompt = gen_ai_module.update_extras_and_prompt(model_obj, prompt, extras)
-        except ImportError:
-            pass
-        except AttributeError:
-            pass
-
-    messages = extras.get('messages', [])
-
-    if prompt is not None:
-        messages.append({
-            'role': 'user',
-            'content': prompt
-        })
-
-    #add system prompt to messages for request object
-
-    if system_prompt_position in ('prepend', 'bookend',):
-        messages.insert(0, {
-            'role': 'system',
-            'content': system_prompt
-        })
-
-    if system_prompt_position in ('append', 'bookend',):
-        messages.append({
-            'role': 'system',
-            'content': system_prompt
-        })
+    messages = prepare_messages(model_obj, prompt, extras)
 
     model_type = parameters.get('openai_model', 'gpt-3.5-turbo')
 

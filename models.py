@@ -11,7 +11,8 @@ from django.db import models
 from django.utils import timezone
 
 MODEL_TYPES = (
-    ('openai_chat', 'OpenAI Chat'),
+    ('anthropic_claude', 'Anthropic Claude'),
+    ('openai_chat', 'OpenAI Chat (Inc. Azure)'),
     ('openai_chat_legacy', 'OpenAI Chat (Legacy HTTP Only)'),
     ('openai_images', 'OpenAI Images'), # Not yet implemented.
 )

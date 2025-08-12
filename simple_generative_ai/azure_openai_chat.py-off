@@ -3,10 +3,9 @@
 import traceback
 
 from ..models import GenerativeAIException
-
 from . import prepare_messages
 
-def run_model(model_obj, prompt, user='openai_user', extras=None):
+def run_model(model_obj, prompt, user='azure_user', extras=None):
     if extras is None:
         extras = {}
 
@@ -17,10 +16,10 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
     try:
         import openai # pylint: disable=import-outside-toplevel, import-error
 
-        client = openai.OpenAI(api_key=parameters.get('openai_api_key', '')) # pylint: disable=no-member
+        client = openai.AzureOpenAI(api_key=parameters.get('azure_openai_api_key', ''), api_version="2024-07-01-preview", api_key=parameters.get('azure_openai_endpoint', '')) # pylint: disable=no-member
 
         request_obj = {
-            'model': parameters.get('openai_model', 'gpt-3.5-turbo'),
+            'model': parameters.get('azure_deployment_name', ''),
             'user': user,
             'messages': messages,
         }
@@ -49,10 +48,15 @@ def validate_model(model_obj):
 
     parameters = model_obj.fetch_parameters()
 
-    if parameters.get('openai_api_key', None) is None:
-        issues.append('Add valid "openai_api_key" parameter to model')
+    service_mode = parameters.get('service_mode', 'openai')
 
-    if parameters.get('openai_model', None) is None:
-        issues.append('Specify "openai_model" type parameter for model (see https://platform.openai.com/docs/models)')
+    if parameters.get('azure_openai_api_key', None) is None:
+        issues.append('Add valid "azure_openai_api_key" parameter to model')
+
+    if parameters.get('azure_openai_endpoint', None) is None:
+        issues.append('Add valid "azure_openai_endpoint" parameter to model')
+
+    if parameters.get('azure_deployment_name', None) is None:
+        issues.append('Specify a valid "azure_deployment_name" for model (see https://learn.microsoft.com/en-us/azure/ai-foundry/openai/how-to/create-resource?pivots=web-portal#deploy-a-model)')
 
     return issues
