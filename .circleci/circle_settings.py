@@ -44,7 +44,7 @@ MIDDLEWARE = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'simple_generative_ai.circle_urls'
+ROOT_URLCONF = 'sga.circle_urls'
 
 TEMPLATES = [
     {
