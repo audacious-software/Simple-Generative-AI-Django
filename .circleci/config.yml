@@ -11,7 +11,6 @@ workflows:
       - build-310
       - build-38
       - build-37
-      - build-36
 
 jobs:
   build-312:
