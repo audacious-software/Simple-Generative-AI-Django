@@ -29,11 +29,16 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
             model_parameters = parameters.get('model_parameters', {})
             request_obj.update(model_parameters)
 
-            chat_completion = client.chat.completions.create(**request_obj)
+            try:
+                chat_completion = client.chat.completions.create(**request_obj)
 
-            model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
+                model_obj.log_request(request_obj, chat_completion.model_dump(mode='json'), True)
 
-            return chat_completion.choices[0].message.content
+                return chat_completion.choices[0].message.content
+            except openai.APIStatusError as bad_request:
+                model_obj.log_request(request_obj, bad_request.response.json(), False)
+
+                raise GenerativeAIException('Error encountered running OpenAI.chat.completions.create.') from bad_request
 
         if parameters.get('azure_openai_api_key', None) is not None:
             client = openai.AzureOpenAI(api_key=parameters.get('azure_openai_api_key', ''), api_version="2024-07-01-preview", azure_endpoint=parameters.get('azure_openai_endpoint', '')) # pylint: disable=no-member
@@ -56,7 +61,7 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
             except openai.APIStatusError as bad_request:
                 model_obj.log_request(request_obj, bad_request.response.json(), False)
 
-                raise GenerativeAIException('Error encountered running OpenAI.chat.completions.create.') from error
+                raise GenerativeAIException('Error encountered running OpenAI.chat.completions.create.') from bad_request
 
     except Exception as error:
         response_obj = {
@@ -66,6 +71,8 @@ def run_model(model_obj, prompt, user='openai_user', extras=None):
         model_obj.log_request(request_obj, response_obj, False)
 
         raise GenerativeAIException('Error encountered running OpenAI.chat.completions.create.') from error
+
+    return None
 
 def validate_model(model_obj):
     parameters = model_obj.fetch_parameters()
