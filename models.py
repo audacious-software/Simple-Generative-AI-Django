@@ -88,9 +88,21 @@ class GenerativeAIModel(models.Model):
 
         return ['Locate implementation for model type "%s"' % self.model_type]
 
-
     def log_request(self, request_obj, response_obj, successful):
         return GenerativeAIModelRequest.objects.create(model=self, requested=timezone.now(), request=json.dumps(request_obj, indent=2), response=json.dumps(response_obj, indent=2), successful=successful)
+
+    def fetch_help_text(self):
+        for app in settings.INSTALLED_APPS:
+            try:
+                gen_ai_module = importlib.import_module('.simple_generative_ai.%s' % self.model_type, package=app)
+
+                return gen_ai_module.fetch_help_text(self)
+            except ImportError:
+                pass
+            except AttributeError:
+                pass
+
+        return 'No help text available for model type "%s"' % self.model_type
 
 class GenerativeAIModelRequest(models.Model):
     class Meta:
