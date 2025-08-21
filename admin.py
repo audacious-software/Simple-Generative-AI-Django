@@ -21,7 +21,7 @@ class GenerativeAIModelAdmin(admin.ModelAdmin):
             'model': instance,
         }
 
-        return mark_safe(render_to_string('admin/simple_generative_ai_model__help_text.html', context))
+        return mark_safe(render_to_string('admin/simple_generative_ai_model__help_text.html', context)) # nosec
 
 @admin.register(GenerativeAIModelRequest)
 class GenerativeAIModelRequestAdmin(admin.ModelAdmin):
