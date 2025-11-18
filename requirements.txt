@@ -1,5 +1,5 @@
 anthropic==0.72.0; python_version <= '3.8'
-anthropic==0.73.0; python_version > '3.8'
+anthropic==0.74.0; python_version > '3.8'
 bandit==1.8.6; python_version >= '3.9'
 bandit==1.7.10; python_version == '3.8'
 bandit==1.7.5; python_version == '3.7'
