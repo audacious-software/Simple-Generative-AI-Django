@@ -11,7 +11,7 @@ Django==4.2.26; python_version >= '3.8' and python_version <= '3.9'
 Django==5.2.9; python_version >= '3.10'
 openai==1.39.0; python_version == '3.7' # Do not update - newer version dependencies not Python 3.7-compatible.
 openai==1.63.2; python_version == '3.8'
-openai==2.9.0; python_version >= '3.9'
+openai==2.14.0; python_version >= '3.9'
 psycopg2-binary==2.9.9; python_version == '3.7'
 psycopg2-binary==2.9.10; python_version == '3.8'
 psycopg2-binary==2.9.11; python_version >= '3.9'
