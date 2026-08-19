@@ -10,6 +10,7 @@ workflows:
       - build-312
       - build-310
       - build-38
+      - build-37
 
 jobs:
   build-312:
