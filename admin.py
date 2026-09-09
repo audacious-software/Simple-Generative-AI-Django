@@ -16,7 +16,7 @@ class GenerativeAIModelAdmin(admin.ModelAdmin):
 
     readonly_fields = ('help_text',)
 
-    def help_text(self, instance):
+    def help_text(self, instance): # pylint: disable=no-self-use
         context = {
             'model': instance,
         }
