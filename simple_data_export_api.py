@@ -35,7 +35,7 @@ def export_data_types(available_sources):
         return [
             ('simple_generative_ai.request_logs', 'Generative AI Request Logs',),
         ]
-    
+
     return []
 
 def compile_data_export(data_type, data_sources, start_time=None, end_time=None, custom_parameters=None): # pylint: disable=unused-argument, too-many-locals
