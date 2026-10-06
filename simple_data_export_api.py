@@ -14,18 +14,29 @@ from django.db.models import Q
 
 from .models import GenerativeAIModel
 
-def export_data_sources(params=None):  # pylint: disable=unused-argument
+def export_data_sources(params=None, requester=None):  # pylint: disable=unused-argument
     data_sources = []
 
     for model in GenerativeAIModel.objects.all().order_by('model_name'):
-        data_sources.append((model.model_id, model.model_name, 'Simple Generative AI',))
+        data_sources.append(('simple_generative_ai:%s' % model.model_id, model.model_name, 'Simple Generative AI',))
 
     return data_sources
 
-def export_data_types():
-    return [
-        ('simple_generative_ai.request_logs', 'Generative AI Request Logs',),
-    ]
+def export_data_types(available_sources):
+    found = False
+
+    for source in available_sources:
+        if source.startswith('simple_generative_ai:'):
+            found = True
+
+            break
+
+    if found:
+        return [
+            ('simple_generative_ai.request_logs', 'Generative AI Request Logs',),
+        ]
+    
+    return []
 
 def compile_data_export(data_type, data_sources, start_time=None, end_time=None, custom_parameters=None): # pylint: disable=unused-argument, too-many-locals
     here_tz = pytz.timezone(settings.TIME_ZONE)
